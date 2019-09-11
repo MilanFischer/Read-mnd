@@ -15,18 +15,18 @@ library(openair)
 # Create a csv file for each mnd file (TRUE or FALSE)
 Write_csv = TRUE
 
-   dir.create('../outputs',showWarnings = FALSE)
+   dir.create('../outputs', showWarnings = FALSE)
 
 if(Write_csv == TRUE){
-   dir.create('../outputs/csv_files',showWarnings = FALSE)
+   dir.create('../outputs/csv_files', showWarnings = FALSE)
 }
 
-mnd_Files<-list.files('../mnd_files',pattern="\\.mnd$")
+mnd_Files<-list.files('../mnd_files', pattern="\\.mnd$")
 
 for(i in 1:length(mnd_Files))
 {
 
-  Metadata<-readLines(paste('../mnd_files/',mnd_Files[i], sep=''), 500)
+  Metadata<-readLines(paste('../mnd_files/', mnd_Files[i], sep=''), 500)
 
   start=which(Metadata == 'Main Data')
   end=which(Metadata == '')[2]
@@ -34,7 +34,7 @@ for(i in 1:length(mnd_Files))
   # Extract the names of variables
   Names <- character()
   for(k in (start+1):(end-1)){
-     Names <- c(Names, strsplit(Metadata[k], split='#')[[1]][2])
+     Names <- c(Names, strsplit(Metadata[k], split = '#')[[1]][2])
   }
 
   # Remove the empty space from the names
@@ -43,13 +43,13 @@ for(i in 1:length(mnd_Files))
   # Extract the variable units
   Units <- character()
   for(k in (start+1):(end-1)){
-     Units <- c(Units, strsplit(Metadata[k], split='#')[[1]][3])
+     Units <- c(Units, strsplit(Metadata[k], split = '#')[[1]][3])
   }
 
   # Remove the empty space from the names
   Names <- gsub(' ', '', Names)
 
-  Data <- read.table(paste('../mnd_files/',mnd_Files[i], sep=''), header = FALSE, skip = end, na.strings = 'N/A')
+  Data <- read.table(paste('../mnd_files/', mnd_Files[i], sep=''), header = FALSE, skip = end, na.strings = 'N/A')
 
   # Name the variables
   names(Data) <- Names
@@ -77,7 +77,7 @@ Data_merged$time <- gsub(pattern = 'R.*', replacement = '', x = Data_merged$time
 
 write.table(Data_merged,'../outputs/Data_mnd_converted.csv', col.names = TRUE, row.names = FALSE, sep = ',')
 
-Data_merged$time <- as.POSIXct(Data_merged$time, origin = '1970-01-01 00:00:00.1', tz = 'GMT', format='%Y-%m-%d %H:%M')
+Data_merged$time <- as.POSIXct(Data_merged$time, origin = '1970-01-01 00:00:00.1', tz = 'GMT', format = '%Y-%m-%d %H:%M')
 colnames(Data_merged)[which(colnames(Data_merged) == 'time')] <- 'date'
 
 # The aggragation assumes that the raw data are in 1 minute time step
@@ -85,7 +85,7 @@ colnames(Data_merged)[which(colnames(Data_merged) == 'time')] <- 'date'
 Min10 <- timeAverage(Data_merged, avg.time = '10 min', data.thresh = 0, statistic = 'mean',
 type = 'default', percentile = NA, start.date = NA, end.date = NA, interval = '1 min', vector.ws = FALSE, fill = FALSE)
 
-# Necessary to allign the time vector in the way that the timestamp indicate the end of the averaging interval
+# Necessary to allign the time vector in the way that the timestamp indicates the end of the averaging interval
 Min10$date <- Min10$date+9*60
 
-write.table(Min10,'../outputs/Data_mnd_converted_10min.csv',col.names=TRUE,row.names=FALSE,sep=',')
+write.table(Min10, '../outputs/Data_mnd_converted_10min.csv', col.names=TRUE,row.names=FALSE,sep=',')
