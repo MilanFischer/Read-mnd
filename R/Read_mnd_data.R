@@ -13,11 +13,11 @@ rm(list = ls())
 library(openair)
 
 # Create a csv file for each mnd file (TRUE or FALSE)
-Write_csv = TRUE
+write_csv = TRUE
 
    dir.create('../outputs', showWarnings = FALSE)
 
-if(Write_csv == TRUE){
+if(write_csv == TRUE){
    dir.create('../outputs/csv_files', showWarnings = FALSE)
 }
 
@@ -56,7 +56,7 @@ for(i in 1:length(mnd_Files))
 
   Date <- substr(mnd_Files[i], 1, nchar(mnd_Files[i])-4)
 
-  if(Write_csv == TRUE){
+  if(write_csv == TRUE){
     write.table(Data, paste('../outputs/csv_files/', Date,'.csv', sep=''), col.names = TRUE, row.names = FALSE, sep = ',')
   }
 
