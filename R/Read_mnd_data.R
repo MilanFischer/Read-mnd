@@ -4,7 +4,7 @@
  #             mnd files reader             #
  #        ------------------------          #
  #  Created on 2019-09-11 by Milan Fischer  #
- #  email: fischer.mialn@gmail.com          #
+ #  email: fischer.milan@gmail.com          #
  #                                          #
  ############################################
 
