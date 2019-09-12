@@ -49,7 +49,18 @@ for(i in 1:length(mnd_Files))
   # Remove the empty space from the names
   Names <- gsub(' ', '', Names)
 
-  Data <- read.table(paste('../mnd_files/', mnd_Files[i], sep=''), header = FALSE, skip = end, na.strings = 'N/A')
+  suppressWarnings(Test <- count.fields(paste('../mnd_files/', mnd_Files[i], sep = ""), blank.lines.skip = FALSE))
+
+  L_skip <- which(!Test %in% length(Names)); L_skip <- L_skip[which(L_skip > end)]
+
+  # This if else statement is necessary in case of corrupted mnd files
+  if(length(L_skip)>0){
+    suppressWarnings(Input <- readLines(paste('../mnd_files/', mnd_Files[i], sep = "")))
+    Input <- Input[-L_skip]
+    Data <- read.table(textConnection(Input), header = FALSE, skip = end, na.strings = 'N/A')
+  }else{
+    Data <- read.table(paste('../mnd_files/', mnd_Files[i], sep=''), header = FALSE, skip = end, na.strings = 'N/A')
+  }
 
   # Name the variables
   names(Data) <- Names
