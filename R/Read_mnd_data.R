@@ -97,4 +97,4 @@ type = 'default', percentile = NA, start.date = NA, end.date = NA, interval = '1
 # Necessary to allign the time vector in the way that the timestamp indicates the end of the averaging interval
 Min10$date <- Min10$date+9*60
 
-write.table(Min10, '../outputs/Data_mnd_converted_10min.csv', col.names=TRUE,row.names=FALSE,sep=',')
+write.table(Min10, '../outputs/Data_mnd_converted_10min.csv', col.names = TRUE, row.names = FALSE, sep = ',')
