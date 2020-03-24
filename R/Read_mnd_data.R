@@ -88,7 +88,7 @@ Data_merged$time <- gsub(pattern = 'R.*', replacement = '', x = Data_merged$time
 
 write.table(Data_merged, '../outputs/Data_mnd_converted.csv', col.names = TRUE, row.names = FALSE, sep = ',')
 
-# The aggragation assumes that the raw data are in 1 minute time step
+# The aggregation assumes that the raw data are in 1 minute time step
 Data_merged$time <- as.POSIXct(Data_merged$time, origin = '1970-01-01 00:00:00.1', tz = 'GMT', format = '%Y-%m-%d %H:%M')
 colnames(Data_merged)[which(colnames(Data_merged) == 'time')] <- 'date'
 Min10 <- timeAverage(Data_merged, avg.time = '10 min', data.thresh = 0, statistic = 'mean',
